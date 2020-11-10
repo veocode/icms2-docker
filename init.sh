@@ -1,6 +1,16 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+if [ $1 = "clear" ]; then
+    echo "Cleaning installation..."
+    rm -rf $DIR/icms2
+    mkdir $DIR/icms2
+    echo '' > $DIR/icms2/.gitkeep
+    rm -rf $DIR/mysql/db/*
+    echo '' > $DIR/mysql/db/.gitkeep    
+    exit 0    
+fi
+
 declare -A envs 
 envs[VERSION]=2.13.1
 envs[HTTP_PORT]=80
