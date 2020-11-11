@@ -41,7 +41,7 @@ RUN docker-php-ext-configure /usr/src/php/ext/memcached --disable-memcached-sasl
     && rm -rf /usr/src/php/ext/memcached
 
 # PHP CONFIGURATION LINKS
-RUN mkdir /usr/local/etc/php/conf 
-COPY ./php/php.ini /usr/local/etc/php/conf/php.ini
+RUN mkdir /usr/local/etc/php/conf.icms
+COPY ./php/php.ini /usr/local/etc/php/conf.icms/php.ini
 WORKDIR /usr/local/etc/php
-RUN ln -s /usr/local/etc/php/conf/php.ini php.ini
+RUN ln -s /usr/local/etc/php/conf.icms/php.ini php.ini
