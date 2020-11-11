@@ -20,7 +20,7 @@
  - Apache 2.4.38
 	 - mod_rewrite
  - Mysql 8
- - PhpMyAdmin  5.0.4
+ - PhpMyAdmin 5.0.4 *(опционально)*
 
 Всё окружение настроено специально под InstantCMS.
 
@@ -64,11 +64,12 @@ $ ./init.sh deploy
 |--|--|--|
 | InstantCMS version to install | 2.13.1 | Версия InstantCMS для установки. Полный список всех версий можно посмотреть в [официальном репозитории](https://github.com/instantsoft/icms2/tags) |
 | Web-server Port | 80 | Порт, на котором будет доступен веб-сервер |
-| PhpMyAdmin Port | 8001 | Порт, на котором будет доступен PhpMyAdmin |
 | MySQL Database | icmsdb | Название базы данных (будет создана автоматически) |
 | MySQL User | icmsdb | Пользователь базы данных | 
 | MySQL User Password | secret | Пароль пользователя базы данных |
 | MySQL Root Password | rootsecret | Пароль root-пользователя базы данных |
+| Install phpMyAdmin? (y/n) | y | Нужно ли устанавливать phpMyAdmin? Ответ `y` или `n` |
+| phpMyAdmin Port | 8001 | Если в предыдущем вопросе вы ответили `y`, то нужно будет указать, на каком порту будет работать phpMyAdmin |
 
 После ответа на вопросы установщик загрузит требуемую версию InstantCMS из официального репозитория, настроит, создаст и запустит необходимые контейнеры. Далее, если производится чистая установка, вам необходимо установить саму InstantCMS.
 
