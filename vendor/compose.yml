@@ -1,0 +1,36 @@
+version: "3.1"
+services:
+    icms:
+        build: .
+        ports: 
+            - ${HTTP_PORT}:80
+        environment: 
+            ICMS_MYSQL_DB_HOST: mysql
+            ICMS_MYSQL_DB_BASE: ${MYSQL_DATABASE}
+            ICMS_MYSQL_DB_USER: ${MYSQL_USER}
+            ICMS_MYSQL_DB_PASS: ${MYSQL_PASSWORD}
+            ICMS_MYSQL_DB_PREFIX: cms_
+        volumes:
+            - ./icms2:/var/www/html/
+            - ./php:/usr/local/etc/php/conf
+        links:
+            - mysql
+        networks:
+            - default
+    mysql:
+        image: mysql:8.0
+        ports: 
+            - 3306:3306
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_INITDB_SKIP_TZINFO: 1
+        volumes:
+            - ./mysql/dump:/docker-entrypoint-initdb.d
+            - ./mysql/conf:/etc/mysql/conf.d
+            - ./mysql/db:/var/lib/mysql
+        networks:
+            - default
