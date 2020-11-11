@@ -23,6 +23,7 @@ RUN a2enmod rewrite
 RUN service apache2 restart
 
 # PHP EXTENSIONS
+RUN docker-php-ext-install opcache
 RUN docker-php-ext-install mysqli 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
@@ -38,3 +39,9 @@ COPY ./vendor/memcached /usr/src/php/ext/memcached
 RUN docker-php-ext-configure /usr/src/php/ext/memcached --disable-memcached-sasl \
     && docker-php-ext-install /usr/src/php/ext/memcached \
     && rm -rf /usr/src/php/ext/memcached
+
+# PHP CONFIGURATION LINKS
+RUN mkdir /usr/local/etc/php/conf 
+COPY ./php/php.ini /usr/local/etc/php/conf/php.ini
+WORKDIR /usr/local/etc/php
+RUN ln -s /usr/local/etc/php/conf/php.ini php.ini
