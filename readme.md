@@ -15,6 +15,7 @@
 
  - PHP 7.2.34
 	 - Memcached
+	 - Zend OPcache
 	 - IonCube Loader
  - Apache 2.4.38
 	 - mod_rewrite
