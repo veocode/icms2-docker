@@ -80,7 +80,7 @@ $ ./init.sh deploy https://github.com/user/repo.git
 Мастер установки спросит у вас значения следующих параметров:
 | Параметр | По-умолчанию | Описание | 
 |--|--|--|
-| InstantCMS version to install | 2.13.1 | Версия InstantCMS для установки. Полный список всех версий можно посмотреть в [официальном репозитории](https://github.com/instantsoft/icms2/tags) |
+| InstantCMS version to install | 2.13.1 | Версия InstantCMS для установки. Полный список всех версий можно посмотреть в [официальном репозитории](https://github.com/instantsoft/icms2/tags). Этот вопрос не будет задан, если мастер запущен с параметром `deploy` |
 | Web-server Port | 80 | Порт, на котором будет доступен веб-сервер |
 | MySQL Database | icmsdb | Название базы данных (будет создана автоматически) |
 | MySQL User | icmsdb | Пользователь базы данных | 
