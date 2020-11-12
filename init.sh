@@ -6,9 +6,9 @@ if [[ $1 == "clear" ]]; then
     echo "Cleaning installation..."
     rm -rf $DIR/icms2
     mkdir $DIR/icms2
-    echo '' > $DIR/icms2/.gitkeep
+    echo "" > $DIR/icms2/.gitkeep
     rm -rf $DIR/mysql/db/*
-    echo '' > $DIR/mysql/db/.gitkeep    
+    echo "" > $DIR/mysql/db/.gitkeep    
     cp $DIR/vendor/compose.yml $DIR/docker-compose.yml
     exit 0    
 fi
