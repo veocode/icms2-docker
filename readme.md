@@ -82,7 +82,7 @@ $ ./init.sh deploy https://github.com/user/repo.git
 |--|--|--|
 | InstantCMS version to install | 2.13.1 | Версия InstantCMS для установки. Полный список всех версий можно посмотреть в [официальном репозитории](https://github.com/instantsoft/icms2/tags). Этот вопрос не будет задан, если мастер запущен с параметром `deploy` |
 | Web-server Port | 80 | Порт, на котором будет доступен веб-сервер |
-| MySQL Database | icmsdb | Название базы данных (будет создана автоматически) |
+| MySQL Database | icmsdb | Название базы данных (будет создана автоматически). Этот и остальные параметры MySQL должны быть придуманы вами - они нигде заранее не прописаны и никак не связаны с хост-системой |
 | MySQL User | icmsdb | Пользователь базы данных | 
 | MySQL User Password | secret | Пароль пользователя базы данных |
 | MySQL Root Password | rootsecret | Пароль root-пользователя базы данных |
