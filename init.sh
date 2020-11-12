@@ -1,4 +1,5 @@
 #!/bin/bash
+ICMS_REPO="https://github.com/instantsoft/icms2.git"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [[ $1 == "clear" ]]; then
@@ -33,6 +34,9 @@ prompts[PHPMYADMIN_INSTALL]="Install phpMyAdmin? (y/n)"
 prompts[PHPMYADMIN_PORT]="phpMyAdmin Port"
 
 order=(VERSION HTTP_PORT MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD PHPMYADMIN_INSTALL PHPMYADMIN_PORT)
+if [[ $1 == "deploy" ]]; then
+    order=(HTTP_PORT MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD PHPMYADMIN_INSTALL PHPMYADMIN_PORT)
+fi
 
 PHPMYADMIN_INSTALL=y
 
@@ -57,13 +61,15 @@ done
 
 echo ""
 
-echo "Cleaning installation..."
-rm -rf $DIR/icms2
-rm -rf $DIR/mysql/db/*
-echo '' > $DIR/mysql/db/.gitkeep
-cp $DIR/vendor/compose.yml $DIR/docker-compose.yml
+if [[ $1 != "deploy" ]]; then
+    echo "Cleaning installation..."
+    rm -rf $DIR/icms2
+    rm -rf $DIR/mysql/db/*
+    echo '' > $DIR/mysql/db/.gitkeep    
+fi
 
 echo "Saving configuration..."
+cp $DIR/vendor/compose.yml $DIR/docker-compose.yml
 rm -f $DIR/.env
 for key in "${order[@]}"; do 
     if [[ $key == "PHPMYADMIN_PORT" && $PHPMYADMIN_INSTALL != "y" ]]; then
@@ -75,21 +81,23 @@ if [[ $PHPMYADMIN_INSTALL == "y" ]]; then
     cat $DIR/vendor/phpmyadmin.yml >> $DIR/docker-compose.yml
 fi
 
-VERSION="${envs[VERSION]}"
+if [[ $1 != "deploy" ]]; then
+    VERSION="${envs[VERSION]}"
 
-echo "Downloading InstantCMS v$VERSION..."
-git clone -q --branch $VERSION https://github.com/instantsoft/icms2.git || { 
-    echo 'Failed to download. Bad version?' ; exit 1; 
-}
+    echo "Downloading InstantCMS v$VERSION..."
+    git clone -q --branch $VERSION $ICMS_REPO || { 
+        echo 'Failed to download. Bad version?' ; exit 1; 
+    }
 
-echo "Cleaning repository stuff..."
-rm -rf $DIR/icms2/.git
-rm -rf $DIR/icms2/.github
-rm -rf $DIR/icms2/.gitignore
-rm -f $DIR/icms2/ISSUE_TEMPLATE.md
-rm -f $DIR/icms2/README.md
-rm -f $DIR/icms2/README_RU.md
-rm -f $DIR/icms2/LICENSE
+    echo "Cleaning repository stuff..."
+    rm -rf $DIR/icms2/.git
+    rm -rf $DIR/icms2/.github
+    rm -rf $DIR/icms2/.gitignore
+    rm -f $DIR/icms2/ISSUE_TEMPLATE.md
+    rm -f $DIR/icms2/README.md
+    rm -f $DIR/icms2/README_RU.md
+    rm -f $DIR/icms2/LICENSE
+fi
 
 echo "Setting up permissions..."
 find $DIR/icms2/ -type f -exec chmod 644 {} \;
@@ -102,4 +110,4 @@ echo "Starting Docker..."
 docker-compose up -d
 
 echo "Done!"
-echo ""
+echo " "
