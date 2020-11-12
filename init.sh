@@ -97,6 +97,28 @@ download_icms() {
     rm -f $DIR/icms2/LICENSE
 }
 
+checkout_icms() {
+    local REPO_URL=$1
+    echo "Downloading site from $REPO_URL..."
+    rm -rf $DIR/icms2
+    git clone -q $REPO_URL icms2 || { 
+        echo 'Failed to download. Bad repository?'
+        exit 1
+    }
+    echo "Checking downloaded contents..."
+    if [ ! -f $DIR/icms2/system/core/core.php ]; then
+        echo "InstantCMS not found in $DIR/icms2: Bad repository?"
+        exit 1
+    fi   
+    if [ -f $DIR/icms2/system/config/config.prod.php ]; then
+        echo "Deploying production config..."
+        mv $DIR/icms2/system/config/config.prod.php $DIR/icms2/system/config/config.php        
+    fi   
+    echo "Deploying database dumps..."
+    rm -f $DIR/mysql/dump/*
+    mv $DIR/icms2/*.sql $DIR/mysql/dump
+}
+
 set_icms_permissions() {
     echo "Setting up permissions..."
     find $DIR/icms2/ -type f -exec chmod 644 {} \;
@@ -129,15 +151,29 @@ main() {
     fi
 
     if [[ $MODE == "deploy" ]]; then 
-        run_wizard
-        save_config
-        set_icms_permissions
-        run_docker
-        completed
+        local REPO_URL=$2
+
+        if [[ $REPO_URL == "" ]]; then
+            run_wizard
+            save_config
+            set_icms_permissions
+            run_docker
+            completed
+        fi
+
+        if [[ $REPO_URL != "" ]]; then
+            run_wizard
+            save_config
+            checkout_icms $REPO_URL
+            set_icms_permissions
+            run_docker
+            completed
+        fi
     fi
 
     if [[ $MODE == "clear" ]]; then 
         clear_installation
+        rm -f $DIR/mysql/dump/*.sql
         completed
     fi
 
