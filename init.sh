@@ -84,7 +84,8 @@ download_icms() {
 
     echo "Downloading InstantCMS v$VERSION..."
     git clone -q --branch $VERSION $ICMS_REPO || { 
-        echo 'Failed to download. Bad version?' ; exit 1; 
+        echo "Failed to download. Invalid version?"
+        exit 1
     }
 
     echo "Cleaning repository stuff..."
@@ -102,12 +103,12 @@ checkout_icms() {
     echo "Downloading site from $REPO_URL..."
     rm -rf $DIR/icms2
     git clone -q $REPO_URL icms2 || { 
-        echo 'Failed to download. Bad repository?'
+        echo "Failed to download. Invalid repository?"
         exit 1
     }
     echo "Checking downloaded contents..."
     if [ ! -f $DIR/icms2/system/core/core.php ]; then
-        echo "InstantCMS not found in $DIR/icms2: Bad repository?"
+        echo "InstantCMS not found in $DIR/icms2: Invalid repository?"
         exit 1
     fi   
     if [ -f $DIR/icms2/system/config/config.prod.php ]; then
@@ -136,6 +137,7 @@ run_docker() {
 completed() {
     echo "Done!"
     echo " "
+    exit 0
 }
 
 main() {
