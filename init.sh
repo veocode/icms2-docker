@@ -154,6 +154,7 @@ main() {
 
     if [[ $MODE == "deploy" ]]; then 
         local REPO_URL=$2
+        local SKIP_WIZARD=$3
 
         if [[ $REPO_URL == "" ]]; then
             run_wizard
@@ -164,8 +165,10 @@ main() {
         fi
 
         if [[ $REPO_URL != "" ]]; then
-            run_wizard
-            save_config
+            if [[ $SKIP_WIZARD != "--skip-wizard" ]]; then
+                run_wizard
+                save_config
+            fi
             checkout_icms $REPO_URL
             set_icms_permissions
             run_docker
