@@ -1,0 +1,342 @@
+/* @import url('https://fonts.googleapis.com/css?family=Ubuntu'); */
+
+* {
+	outline: none !important;
+}
+
+html, body {
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	font-family: 'Ubuntu', sans-serif;
+	box-sizing: border-box;
+}
+
+a {
+	color:#3498DB;
+	transition: all 0.3s;
+}
+
+a:hover{
+	color:#2980B9;
+}
+
+.modal-window {
+    display:none;
+}
+
+ul.flat, ul.flat > li {
+	list-style:none;
+	margin: 0;
+	padding:0;
+}
+
+ul.flat > li {
+	float:left;
+}
+
+.preloader {
+	position:absolute;
+	width:60px;
+	height:60px;
+	line-height:60px;
+	background:#FFF;
+	font-size:42px;
+	text-align:center;
+	border-radius:4px;
+	box-shadow:0 0 10px #CFCFCF;
+	left:50%;
+	top:50%;
+	margin-left:-30px;
+	margin-top:-30px;
+}
+
+.grow {
+	display: inline-block;
+	vertical-align: middle;
+	-webkit-transform: perspective(1px) translateZ(0);
+	transform: perspective(1px) translateZ(0);
+	box-shadow: 0 0 1px transparent;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: transform;
+	transition-property: transform;
+}
+.grow:hover, .grow:focus, .grow:active {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+/* Bootstrap hacks */
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+/*.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}*/
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none !important;
+}
+
+.dropdown-submenu .dropdown-menu.drop-left {
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+/* jQuery UI Theme */
+
+.ui-dialog{
+	box-shadow:none;
+	border-radius:6px;
+	box-shadow:0 1px 2px #2b2b2b;
+	background:#FFF;
+	padding:0;
+}
+.ui-dialog,.ui-dialog-content {
+    -webkit-box-sizing: content-box!important;
+    -moz-box-sizing:content-box!important;
+    box-sizing: content-box!important;
+}
+.ui-dialog .ui-dialog-titlebar{
+	padding:10px;
+	background:#1A242F;
+	border:none;
+	box-shadow:none;
+	border-radius:4px 4px 0 0;
+}
+.ui-dialog .ui-dialog-titlebar-close{
+	background:url(../../images/ui/close.png) no-repeat center;
+	border:none;
+	margin-right:5px;
+	outline:none;
+}
+.ui-dialog .ui-dialog-titlebar-close:hover{
+	opacity: 0.65;
+}
+.ui-dialog .ui-dialog-title{
+	text-shadow:none;
+	font-size:16px;
+	color:#FFF;
+	text-align: center;
+    width: 100%;
+}
+.ui-dialog .ui-dialog-buttonpane{
+    margin: 0;
+    padding: 10px;
+    border-top: solid 1px #E0E4E7;
+    background: #F1F2F4;
+    border-radius: 0 0 4px 4px;
+}
+.ui-dialog-buttonset{
+	width:100%;
+	text-align:center;
+}
+.ui-dialog .ui-dialog-buttonpane button{
+	display: inline-block;
+    border: 2px solid transparent;
+    white-space: nowrap;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    user-select: none;
+	margin:0;
+	margin-right:5px;
+	background: #ffffff;
+	color: #798d8f;
+	border-color: #798d8f;
+	outline: none;
+}
+.ui-dialog .ui-dialog-buttonpane button:hover{
+	color: #697a7b;
+	border-color: #2C3E50;
+}
+
+/* Block Loader */
+
+.block-loader{
+	position:absolute;
+	display:block;
+	width:69px;
+	left:50%;
+	top:50%;
+	margin-left:-35px;
+	margin-top:-12px;
+	z-index: 10;
+}
+
+.block-loader, .block-loader * {
+	box-sizing: border-box;
+}
+
+.block-loader span {
+	display: inline-block;
+	height: 9px;
+	width: 9px;
+	background: rgb(47,172,155);
+	border-radius: 312px;
+	background-clip: padding-box;
+		-o-background-clip: padding-box;
+		-ms-background-clip: padding-box;
+		-webkit-background-clip: padding-box;
+		-moz-background-clip: padding-box;
+}
+
+.block-loader span:nth-child(1) {
+	animation: scale 1.15s 0.12s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-o-animation: scale 1.15s 0.12s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-ms-animation: scale 1.15s 0.12s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-webkit-animation: scale 1.15s 0.12s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-moz-animation: scale 1.15s 0.12s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.block-loader span:nth-child(2) {
+	animation: scale 1.15s 0.23s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-o-animation: scale 1.15s 0.23s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-ms-animation: scale 1.15s 0.23s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-webkit-animation: scale 1.15s 0.23s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-moz-animation: scale 1.15s 0.23s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.block-loader span:nth-child(3) {
+	animation: scale 1.15s 0.35s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-o-animation: scale 1.15s 0.35s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-ms-animation: scale 1.15s 0.35s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-webkit-animation: scale 1.15s 0.35s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-moz-animation: scale 1.15s 0.35s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.block-loader span:nth-child(4) {
+	animation: scale 1.15s 0.46s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-o-animation: scale 1.15s 0.46s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-ms-animation: scale 1.15s 0.46s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-webkit-animation: scale 1.15s 0.46s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-moz-animation: scale 1.15s 0.46s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.block-loader span:nth-child(5) {
+	animation: scale 1.15s 0.58s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-o-animation: scale 1.15s 0.58s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-ms-animation: scale 1.15s 0.58s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-webkit-animation: scale 1.15s 0.58s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		-moz-animation: scale 1.15s 0.58s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+@keyframes scale {
+	0% {
+		transform: scale(0);
+	}
+	25% {
+		transform: scale(0.9, 0.9);
+		background: rgb(147,225,215);
+	}
+	50% {
+		transform: scale(1, 1);
+		margin: 0 2px;
+		background: rgb(47,172,155);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
+
+@-o-keyframes scale {
+	0% {
+		-o-transform: scale(0);
+	}
+	25% {
+		-o-transform: scale(0.9, 0.9);
+		background: rgb(147,225,215);
+	}
+	50% {
+		-o-transform: scale(1, 1);
+		margin: 0 2px;
+		background: rgb(47,172,155);
+	}
+	100% {
+		-o-transform: scale(0);
+	}
+}
+
+@-ms-keyframes scale {
+	0% {
+		-ms-transform: scale(0);
+	}
+	25% {
+		-ms-transform: scale(0.9, 0.9);
+		background: rgb(147,225,215);
+	}
+	50% {
+		-ms-transform: scale(1, 1);
+		margin: 0 2px;
+		background: rgb(47,172,155);
+	}
+	100% {
+		-ms-transform: scale(0);
+	}
+}
+
+@-webkit-keyframes scale {
+	0% {
+		-webkit-transform: scale(0);
+	}
+	25% {
+		-webkit-transform: scale(0.9, 0.9);
+		background: rgb(147,225,215);
+	}
+	50% {
+		-webkit-transform: scale(1, 1);
+		margin: 0 2px;
+		background: rgb(47,172,155);
+	}
+	100% {
+		-webkit-transform: scale(0);
+	}
+}
+
+@-moz-keyframes scale {
+	0% {
+		-moz-transform: scale(0);
+	}
+	25% {
+		-moz-transform: scale(0.9, 0.9);
+		background: rgb(147,225,215);
+	}
+	50% {
+		-moz-transform: scale(1, 1);
+		margin: 0 2px;
+		background: rgb(47,172,155);
+	}
+	100% {
+		-moz-transform: scale(0);
+	}
+}
+

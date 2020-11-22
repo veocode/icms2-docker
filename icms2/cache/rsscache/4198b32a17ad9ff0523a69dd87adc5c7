@@ -1,0 +1,111 @@
+<?php return array (
+  'encoding' => 'windows-1251',
+  'title' => 'Новости :: InstantCMS Community',
+  'link' => 'https://instantcms.ru/novosti',
+  'image_title' => 'InstantCMS - система управления сайтом',
+  'image_url' => 'https://instantcms.ru/images/rss.png',
+  'image_link' => 'https://instantcms.ru',
+  'items' => 
+  array (
+    0 => 
+    array (
+      'title' => 'InstantCMS 2.13.1',
+      'link' => 'https://instantcms.ru/novosti/release2131.html',
+      'description' => 'Массовое редактирование записей типов контента, мелкие улучшения и исправление ошибок.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2131.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2131.html',
+      'pubDate' => 'Sun, 02 Feb 2020 02:02:02 GMT',
+    ),
+    1 => 
+    array (
+      'title' => 'InstantCMS 2.13.0',
+      'link' => 'https://instantcms.ru/novosti/release2130.html',
+      'description' => 'Новая адаптивная админка, чпу для фильтров, поддержка двухфакторной авторизации, улучшенная поддержка PHP7.4 и многое другое.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2130.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2130.html',
+      'pubDate' => 'Wed, 01 Jan 2020 16:58:00 GMT',
+    ),
+    2 => 
+    array (
+      'title' => 'Новая версия InstantCMS 2.12.2',
+      'link' => 'https://instantcms.ru/novosti/release2122.html',
+      'description' => 'Удобное управление Wysiwyg редакторами, переработанный конвертер изображений, уведомления об окончании срока публикаций и другие изменения.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2122.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2122.html',
+      'pubDate' => 'Thu, 09 May 2019 16:14:00 GMT',
+    ),
+    3 => 
+    array (
+      'title' => 'InstantCMS 2.12.1',
+      'link' => 'https://instantcms.ru/novosti/release2121.html',
+      'description' => 'Релиз исправления багов, внедрение нового механизма хранения паролей, настройка главной страницы админки и другие изменения.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2121.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2121.html',
+      'pubDate' => 'Fri, 29 Mar 2019 16:03:00 GMT',
+    ),
+    4 => 
+    array (
+      'title' => 'InstantCMS 2.11.1 и InstantCMS 2.12.0',
+      'link' => 'https://instantcms.ru/novosti/release2120.html',
+      'description' => 'Очередное обновление InstantCMS с множеством улучшений по SEO, полей типов контента, очередной порцией правок по мультиязычности и других улучшений.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2120.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2120.html',
+      'pubDate' => 'Sat, 23 Mar 2019 17:44:00 GMT',
+    ),
+    5 => 
+    array (
+      'title' => 'InstantCMS 2.11.0',
+      'link' => 'https://instantcms.ru/novosti/release2110.html',
+      'description' => 'Новогоднее обновление InstantCMS с множеством улучшений и исправлений.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2110.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2110.html',
+      'pubDate' => 'Tue, 01 Jan 2019 00:00:00 GMT',
+    ),
+    6 => 
+    array (
+      'title' => 'InstantCMS 2.10.1',
+      'link' => 'https://instantcms.ru/novosti/release2101.html',
+      'description' => 'Релиз исправления недочётов и небольших доработок.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2101.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2101.html',
+      'pubDate' => 'Thu, 05 Jul 2018 18:17:00 GMT',
+    ),
+    7 => 
+    array (
+      'title' => 'InstantCMS 2.10.0',
+      'link' => 'https://instantcms.ru/novosti/release2100.html',
+      'description' => 'Возможность подписаться на любой список контента, улучшения в SEO, новые виджеты, улучшенная безопасность и множество других полезных улучшений!',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release2100.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release2100.html',
+      'pubDate' => 'Tue, 01 May 2018 00:15:00 GMT',
+    ),
+    8 => 
+    array (
+      'title' => 'InstantCMS - 10 лет!',
+      'link' => 'https://instantcms.ru/novosti/10anniversary.html',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/10anniversary.html#c',
+      'guid' => 'https://instantcms.ru/novosti/10anniversary.html',
+      'pubDate' => 'Wed, 04 Apr 2018 11:37:00 GMT',
+    ),
+    9 => 
+    array (
+      'title' => 'InstantCMS 2.9.0',
+      'link' => 'https://instantcms.ru/novosti/release290.html',
+      'description' => 'Переработанный механизм модерации, черновики, различные улучшения типов конетнта и исправления ошибок.',
+      'category' => 'Новости',
+      'comments' => 'https://instantcms.ru/novosti/release290.html#c',
+      'guid' => 'https://instantcms.ru/novosti/release290.html',
+      'pubDate' => 'Sun, 31 Dec 2017 11:32:00 GMT',
+    ),
+  ),
+  'items_count' => 10,
+);

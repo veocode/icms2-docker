@@ -155,6 +155,7 @@ main() {
     if [[ $MODE == "deploy" ]]; then 
         local REPO_URL=$2
         local SKIP_WIZARD=$3
+        local WITH_PMA=$4
 
         if [[ $REPO_URL == "" ]]; then
             run_wizard
@@ -168,6 +169,9 @@ main() {
             if [[ $SKIP_WIZARD != "--skip-wizard" ]]; then
                 run_wizard
                 save_config
+            fi
+            if [[ $WITH_PMA == "--with-pma" ]]; then
+                cat $DIR/vendor/phpmyadmin.yml >> $DIR/docker-compose.yml
             fi
             checkout_icms $REPO_URL
             set_icms_permissions
