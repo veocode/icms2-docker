@@ -3,6 +3,10 @@ ICMS_REPO="https://github.com/instantsoft/icms2.git"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODE=${1:-"install"}
 
+FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
+FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
+
+
 declare -A envs 
 envs[VERSION]=2.13.1
 envs[HTTP_PORT]=80
@@ -30,11 +34,15 @@ PHPMYADMIN_INSTALL=y
 clear_installation() {
     echo "Cleaning installation..."
     rm -rf $DIR/icms2
-    rm -rf $DIR/mysql/db
+    rm -rf $DIR/services/mysql/db
+    rm -rf $DIR/services/apache/conf/*
+    rm -rf $DIR/services/apache/logs/*
     mkdir $DIR/icms2
-    mkdir $DIR/mysql/db
+    mkdir $DIR/services/mysql/db
     echo "" > $DIR/icms2/.gitkeep    
-    echo "" > $DIR/mysql/db/.gitkeep    
+    echo "" > $DIR/services/mysql/db/.gitkeep    
+    echo "" > $DIR/services/apache/logs/.gitkeep    
+    echo "" > $DIR/services/apache/conf/.gitkeep
     cp $DIR/vendor/compose.yml $DIR/docker-compose.yml   
 }
 
@@ -116,8 +124,8 @@ checkout_icms() {
         mv $DIR/icms2/system/config/config.prod.php $DIR/icms2/system/config/config.php        
     fi   
     echo "Deploying database dumps..."
-    rm -f $DIR/mysql/dump/*
-    mv $DIR/icms2/*.sql $DIR/mysql/dump
+    rm -f $DIR/services/mysql/dump/*
+    mv $DIR/icms2/*.sql $DIR/services/mysql/dump
 }
 
 set_icms_permissions() {
@@ -154,8 +162,6 @@ main() {
 
     if [[ $MODE == "deploy" ]]; then 
         local REPO_URL=$2
-        local SKIP_WIZARD=$3
-        local WITH_PMA=$4
 
         if [[ $REPO_URL == "" ]]; then
             run_wizard
@@ -166,11 +172,11 @@ main() {
         fi
 
         if [[ $REPO_URL != "" ]]; then
-            if [[ $SKIP_WIZARD != "--skip-wizard" ]]; then
+            if [[ $FLAG_SKIP_WIZARD == 1 ]]; then
                 run_wizard
                 save_config
             fi
-            if [[ $WITH_PMA == "--with-pma" ]]; then
+            if [[ $FLAG_WITH_PMA == 1 ]]; then
                 cat $DIR/vendor/phpmyadmin.yml >> $DIR/docker-compose.yml
             fi
             checkout_icms $REPO_URL
@@ -182,7 +188,7 @@ main() {
 
     if [[ $MODE == "clear" ]]; then 
         clear_installation
-        rm -f $DIR/mysql/dump/*.sql
+        rm -f $DIR/services/mysql/dump/*.sql
         completed
     fi
 

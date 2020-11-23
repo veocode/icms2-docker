@@ -16,7 +16,8 @@ RUN apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y memcached \
     && apt-get install -y libmemcached-dev \
     && apt-get install -y libicu-dev \
-    && apt-get install -y zlib1g-dev 
+    && apt-get install -y zlib1g-dev \
+    && apt-get install -y snap
 
 # APACHE SETUP
 RUN a2enmod rewrite
@@ -40,8 +41,16 @@ RUN docker-php-ext-configure /usr/src/php/ext/memcached --disable-memcached-sasl
     && docker-php-ext-install /usr/src/php/ext/memcached \
     && rm -rf /usr/src/php/ext/memcached
 
+# CUSTOM CONF DIRECTORY
+RUN mkdir /opt/custom.conf
+
 # PHP CONFIGURATION LINKS
-RUN mkdir /usr/local/etc/php/conf.icms
-COPY ./php/php.ini /usr/local/etc/php/conf.icms/php.ini
+RUN mkdir /opt/custom.conf/php
+COPY ./services/php/php.ini /opt/custom.conf/php/php.ini
 WORKDIR /usr/local/etc/php
-RUN ln -s /usr/local/etc/php/conf.icms/php.ini php.ini
+RUN ln -s /opt/custom.conf/php/php.ini php.ini
+
+# INSTALL CERTBOT
+RUN snap install --classic certbot
+RUN ln -s /snap/bin/certbot /usr/bin/certbot
+RUN certbot --apache
