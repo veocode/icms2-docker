@@ -33,6 +33,5 @@ services:
             - ./services/mysql/dump:/docker-entrypoint-initdb.d
             - ./services/mysql/conf:/etc/mysql/conf.d
             - ./services/mysql/db:/var/lib/mysql
-            - ./services/mysql/logs:/var/lib/mysql/logs
         networks:
             - default
