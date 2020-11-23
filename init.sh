@@ -1,9 +1,56 @@
 #!/bin/bash
-ICMS_REPO="https://github.com/instantsoft/icms2.git"
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-MODE=${1:-"install"}
+MODE=${1:-""}
+if [[ $MODE == "" ]]; then
+    echo ""
+    echo -e "\e[96mInstantCMS 2 Official Docker Toolkit\e[39m"
+    echo ""
+    echo "      init.sh <COMMAND> [REPO_URL] [FLAGS]"
+    echo ""
+    echo -e "\e[96mAvailable Commands:\e[39m"
+    echo ""
+    echo "      Before installation: "
+    echo ""
+    echo "          install        - Run Installation Wizard to install InstanCMS 2 from scratch"
+    echo "          deploy         - Deploy contents of icms2 folder"    
+    echo "                           (Provide REPO_URL to deploy from Git repository)"
+    echo "                           (Use FLAGS to bypass Installation Wizard)"
+    echo "                           (See details below)"
+    echo ""
+    echo "      After installation: "
+    echo ""
+    echo "          start          - Start Docker containers"
+    echo "          stop           - Stop Docker containers"
+    echo "          restart        - Restart Docker containers"
+    echo "          shell          - Connect to web-server shell"
+    echo "          clear          - Reset current installation (stop containers first!)"
+    echo ""
+    echo -e "\e[96mAvailable Options:\e[39m"
+    echo ""
+    echo "          REPO_URL       - HTTPS URL of Git repository to use with deploy command"
+    echo ""
+    echo -e "\e[96mAvailable Flags:\e[39m"
+    echo ""
+    echo "          --skip-wizard  - Don't run Installation Wizard on deploy, use .env contents instead"
+    echo "          --with-pma     - Force install phpMyAdmin (to use with --skip-wizard flag)"
+    echo ""    
+    echo -e "\e[96mExamples:\e[39m"
+    echo ""
+    echo "      Install InstantCMS 2 from scratch: "
+    echo "          $ init.sh install "    
+    echo ""        
+    echo "      Deploy InstantCMS 2 from Git repository: "
+    echo "          $ init.sh deploy https://github.com/user/repo"    
+    echo ""        
+    echo "      Deploy InstantCMS 2 from Git repository and phpMyAdmin using config from .env: "
+    echo "          $ init.sh deploy https://github.com/user/repo --skip-wizard --with-pma"
+    echo ""        
+    exit 0
+fi
 
 ARGS=$@
+ICMS_REPO="https://github.com/instantsoft/icms2.git"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
 FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
 
@@ -215,6 +262,16 @@ main() {
         completed
     fi
 
+    if [[ $MODE == "start" ]]; then 
+        start_docker
+        completed
+    fi
+
+    if [[ $MODE == "stop" ]]; then 
+        stop_docker
+        completed
+    fi
+
     if [[ $MODE == "shell" ]]; then 
         docker exec -it $(get_container_name) bash
     fi
@@ -222,3 +279,4 @@ main() {
 }
 
 main $@
+
