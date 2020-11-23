@@ -168,7 +168,10 @@ checkout_icms() {
     if [ ! -f $DIR/icms2/system/core/core.php ]; then
         echo "InstantCMS not found in $DIR/icms2: Invalid repository?"
         exit 1
-    fi   
+    fi
+    echo "Cleaning downloaded contents..."
+    rm -f $DIR/icms2/*.txt
+    rm -f $DIR/icms2/*.md
 }
 
 deploy_configs() {
