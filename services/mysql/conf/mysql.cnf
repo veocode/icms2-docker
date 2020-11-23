@@ -1,7 +1,21 @@
+[mysqld]
+
+#
+# Connection Settings
+#
+max_connections                 = 100
+back_log                        = 512
+thread_cache_size               = 100
+thread_stack                    = 192K
+interactive_timeout             = 180
+wait_timeout                    = 180
+
+#
 # InnoDB Settings
+#
 default_storage_engine          = InnoDB
-innodb_buffer_pool_instances    = 2     # Use 1 instance per 1GB of InnoDB pool size
-innodb_buffer_pool_size         = 2G    # Use up to 70-80% of RAM
+innodb_buffer_pool_instances    = 2
+innodb_buffer_pool_size         = 2G
 innodb_file_per_table           = 1
 innodb_flush_log_at_trx_commit  = 0
 innodb_flush_method             = O_DIRECT
@@ -10,47 +24,35 @@ innodb_log_file_size            = 512M
 innodb_stats_on_metadata        = 0
 innodb_read_io_threads          = 64
 innodb_write_io_threads         = 64
-
 key_buffer_size                 = 32M
 low_priority_updates            = 1
 concurrent_insert               = 2
 
-# Connection Settings
-max_connections                 = 100
-back_log                        = 512
-thread_cache_size               = 100
-thread_stack                    = 192K
-
-interactive_timeout             = 180
-wait_timeout                    = 180
-
+#
 # Buffer Settings
+#
 join_buffer_size                = 4M 
 read_buffer_size                = 3M 
 read_rnd_buffer_size            = 4M 
 sort_buffer_size                = 4M 
 
+#
 # Table Settings
-table_definition_cache          = 40000 # UPD
-table_open_cache                = 40000 # UPD
-open_files_limit                = 60000 # UPD - This can be 2x to 3x the table_open_cache value or match the system's
-                                        # open files limit usually set in /etc/sysctl.conf or /etc/security/limits.conf
-                                        # In systemd managed systems this limit must also be set in:
-                                        # /etc/systemd/system/mysqld.service.d/override.conf (for MySQL 5.7+) and
-                                        # /etc/systemd/system/mariadb.service.d/override.conf (for MariaDB)
-
+#
+table_definition_cache          = 40000
+table_open_cache                = 40000
+open_files_limit                = 60000
 max_heap_table_size             = 128M
 tmp_table_size                  = 128M
 
-# Search Settings
-ft_min_word_len                 = 3     # Minimum length of words to be indexed for search results
-
+#
 # Logging
-log_error                       = /var/lib/mysql/logs/error.log
-log_queries_not_using_indexes   = 1
+#
+log_error                       = /var/lib/mysql/error.log
+log_queries_not_using_indexes   = 0
 long_query_time                 = 5
 slow_query_log                  = 0
-slow_query_log_file             = /var/lib/mysql/logs/slow.log
+slow_query_log_file             = /var/lib/mysql/slow.log
 
 [mysqldump]
 quick

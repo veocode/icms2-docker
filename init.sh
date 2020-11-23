@@ -41,13 +41,11 @@ clear_installation() {
     rm -rf $DIR/icms2
     rm -rf $DIR/services/mysql/db
     rm -rf $DIR/services/apache/logs/*
-    rm -rf $DIR/services/mysql/logs/*
     mkdir $DIR/icms2
     mkdir $DIR/services/mysql/db
     echo "" > $DIR/icms2/.gitkeep    
     echo "" > $DIR/services/mysql/db/.gitkeep    
     echo "" > $DIR/services/apache/logs/.gitkeep    
-    echo "" > $DIR/services/mysql/logs/.gitkeep    
     cp $DIR/vendor/compose.yml $DIR/docker-compose.yml   
 }
 
