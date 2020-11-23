@@ -17,7 +17,7 @@ RUN apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y libmemcached-dev \
     && apt-get install -y libicu-dev \
     && apt-get install -y zlib1g-dev \
-    && apt-get install -y snap
+    && apt-get install -y snapd
 
 # APACHE SETUP
 RUN a2enmod rewrite
@@ -51,6 +51,6 @@ WORKDIR /usr/local/etc/php
 RUN ln -s /opt/custom.conf/php/php.ini php.ini
 
 # INSTALL CERTBOT
-RUN snap install --classic certbot
-RUN ln -s /snap/bin/certbot /usr/bin/certbot
-RUN certbot --apache
+# RUN snap install --classic certbot
+# RUN ln -s /snap/bin/certbot /usr/bin/certbot
+# RUN certbot --apache

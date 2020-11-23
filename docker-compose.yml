@@ -12,7 +12,8 @@ services:
             ICMS_MYSQL_DB_PREFIX: cms_
         volumes:
             - ./icms2:/var/www/html/
-            - ./php:/usr/local/etc/php/conf
+            - ./services/apache/conf:/etc/apache2/
+            - ./services/apache/logs:/var/log/apache2/
         links:
             - mysql
         networks:

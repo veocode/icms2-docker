@@ -3,8 +3,8 @@ ICMS_REPO="https://github.com/instantsoft/icms2.git"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODE=${1:-"install"}
 
-FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
-FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
+FLAG_SKIP_WIZARD=0; if [[ $@ == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
+FLAG_WITH_PMA=0; if [[ $@ == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
 
 
 declare -A envs 
