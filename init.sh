@@ -3,8 +3,9 @@ ICMS_REPO="https://github.com/instantsoft/icms2.git"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODE=${1:-"install"}
 
-FLAG_SKIP_WIZARD=0; if [[ $@ == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
-FLAG_WITH_PMA=0; if [[ $@ == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
+ARGS=$@
+FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
+FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
 
 
 declare -A envs 
@@ -31,18 +32,22 @@ order=(VERSION HTTP_PORT MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PAS
 
 PHPMYADMIN_INSTALL=y
 
+get_container_name() {
+    echo $(basename $DIR)_icms_1
+}
+
 clear_installation() {
     echo "Cleaning installation..."
     rm -rf $DIR/icms2
     rm -rf $DIR/services/mysql/db
-    rm -rf $DIR/services/apache/conf/*
     rm -rf $DIR/services/apache/logs/*
+    rm -rf $DIR/services/mysql/logs/*
     mkdir $DIR/icms2
     mkdir $DIR/services/mysql/db
     echo "" > $DIR/icms2/.gitkeep    
     echo "" > $DIR/services/mysql/db/.gitkeep    
     echo "" > $DIR/services/apache/logs/.gitkeep    
-    echo "" > $DIR/services/apache/conf/.gitkeep
+    echo "" > $DIR/services/mysql/logs/.gitkeep    
     cp $DIR/vendor/compose.yml $DIR/docker-compose.yml   
 }
 
@@ -119,6 +124,9 @@ checkout_icms() {
         echo "InstantCMS not found in $DIR/icms2: Invalid repository?"
         exit 1
     fi   
+}
+
+deploy_configs() {
     if [ -f $DIR/icms2/system/config/config.prod.php ]; then
         echo "Deploying production config..."
         mv $DIR/icms2/system/config/config.prod.php $DIR/icms2/system/config/config.php        
@@ -137,9 +145,19 @@ set_icms_permissions() {
     chmod 777 $DIR/icms2/system/config
 }
 
-run_docker() {
-    echo "Starting Docker..."
+start_docker() {
+    echo "Starting Docker containers..."
     docker-compose up -d
+}
+
+stop_docker() {
+    echo "Stopping Docker containers..."
+    docker-compose down
+}
+
+restart() {
+    stop_docker
+    start_docker
 }
 
 completed() {
@@ -156,7 +174,7 @@ main() {
         save_config
         download_icms
         set_icms_permissions
-        run_docker
+        start_docker
         completed
     fi
 
@@ -166,13 +184,14 @@ main() {
         if [[ $REPO_URL == "" ]]; then
             run_wizard
             save_config
-            set_icms_permissions
-            run_docker
+            deploy_configs
+            set_icms_permissions            
+            start_docker
             completed
         fi
 
         if [[ $REPO_URL != "" ]]; then
-            if [[ $FLAG_SKIP_WIZARD == 1 ]]; then
+            if [[ $FLAG_SKIP_WIZARD != 1 ]]; then
                 run_wizard
                 save_config
             fi
@@ -180,8 +199,9 @@ main() {
                 cat $DIR/vendor/phpmyadmin.yml >> $DIR/docker-compose.yml
             fi
             checkout_icms $REPO_URL
+            deploy_configs
             set_icms_permissions
-            run_docker
+            start_docker
             completed
         fi
     fi
@@ -190,6 +210,15 @@ main() {
         clear_installation
         rm -f $DIR/services/mysql/dump/*.sql
         completed
+    fi
+
+    if [[ $MODE == "restart" ]]; then 
+        restart
+        completed
+    fi
+
+    if [[ $MODE == "shell" ]]; then 
+        docker exec -it $(get_container_name) bash
     fi
 
 }

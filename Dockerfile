@@ -17,7 +17,8 @@ RUN apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y libmemcached-dev \
     && apt-get install -y libicu-dev \
     && apt-get install -y zlib1g-dev \
-    && apt-get install -y snapd
+    && apt-get install -y python-certbot-apache \
+    && apt-get install -y certbot
 
 # APACHE SETUP
 RUN a2enmod rewrite
@@ -50,7 +51,16 @@ COPY ./services/php/php.ini /opt/custom.conf/php/php.ini
 WORKDIR /usr/local/etc/php
 RUN ln -s /opt/custom.conf/php/php.ini php.ini
 
-# INSTALL CERTBOT
-# RUN snap install --classic certbot
-# RUN ln -s /snap/bin/certbot /usr/bin/certbot
-# RUN certbot --apache
+# APACHE CONFIGURATION LINKS
+RUN mkdir /opt/custom.conf/apache
+COPY ./services/apache/conf/ /opt/custom.conf/apache/
+WORKDIR /etc/apache2
+RUN rm -f apache2.conf \ 
+            sites-available/000-default.conf \ 
+            sites-available/default-ssl.conf
+RUN ln -s /opt/custom.conf/apache/apache2.conf apache2.conf
+RUN ln -s /opt/custom.conf/apache/site.conf sites-available/000-default.conf
+RUN ln -s /opt/custom.conf/apache/site.ssl.conf sites-available/default-ssl.conf
+
+# INSTALL SSL
+# RUN certbot --apache --register-unsafely-without-email --agree-tos -d example.com

@@ -12,7 +12,7 @@ services:
             ICMS_MYSQL_DB_PREFIX: cms_
         volumes:
             - ./icms2:/var/www/html/
-            - ./services/apache/conf:/etc/apache2/
+            - ./services/apache/conf:/opt/custom.conf/apache/
             - ./services/apache/logs:/var/log/apache2/
         links:
             - mysql
@@ -30,8 +30,9 @@ services:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_INITDB_SKIP_TZINFO: 1
         volumes:
-            - ./mysql/dump:/docker-entrypoint-initdb.d
-            - ./mysql/conf:/etc/mysql/conf.d
-            - ./mysql/db:/var/lib/mysql
+            - ./services/mysql/dump:/docker-entrypoint-initdb.d
+            - ./services/mysql/conf:/etc/mysql/conf.d
+            - ./services/mysql/db:/var/lib/mysql
+            - ./services/mysql/logs:/var/lib/mysql/logs
         networks:
             - default
