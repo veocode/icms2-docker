@@ -214,9 +214,13 @@ restart() {
     start_docker
 }
 
+header() {
+    echo -e "\e[96micms2-docker: $MODE\e[39m"
+}
+
 completed() {
-    echo "Done!"
-    echo " "
+    echo -e "\e[96mDone!\e[39m"
+    echo ""
     exit 0
 }
 
@@ -248,6 +252,8 @@ main() {
             if [[ $FLAG_SKIP_WIZARD != 1 ]]; then
                 run_wizard
                 save_config
+            else
+                header
             fi
             if [[ $FLAG_WITH_PMA == 1 ]]; then
                 cat $DIR/vendor/phpmyadmin.yml >> $DIR/docker-compose.yml
@@ -261,27 +267,32 @@ main() {
     fi
 
     if [[ $MODE == "clear" ]]; then 
+        header
         clear_installation
         rm -f $DIR/services/mysql/dump/*.sql
         completed
     fi
 
     if [[ $MODE == "restart" ]]; then 
+        header
         restart
         completed
     fi
 
     if [[ $MODE == "start" ]]; then 
+        header
         start_docker
         completed
     fi
 
     if [[ $MODE == "stop" ]]; then 
+        header  
         stop_docker
         completed
     fi
 
     if [[ $MODE == "shell" ]]; then 
+        header
         docker exec -it $(get_container_name) bash
         completed
     fi
