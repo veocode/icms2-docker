@@ -11,7 +11,7 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e "      \e[2mBefore installation:\e[22m "
     echo -e ""
     echo -e "          install        \e[2m- Run Installation Wizard to install InstanCMS 2 from scratch\e[22m"
-    echo -e "          deploy         \e[2m- Deploy contents of icms2 folder (see Options and Flags below)\e[22m"    
+    echo -e "          deploy         \e[2m- Deploy contents of icms2 folder (see Options and Flags below)\e[22m"
     echo -e ""
     echo -e "      \e[2mAfter installation:\e[22m "
     echo -e ""
@@ -24,7 +24,7 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e ""
     echo -e "          help           \e[2m- Show this usage help\e[22m"
     echo -e "          clear          \e[2m- Reset current installation (stop containers first!)\e[22m"
-    echo -e ""    
+    echo -e ""
     echo -e "\e[96mAvailable Options:\e[39m"
     echo -e ""
     echo -e "          REPO_URL       \e[2m- HTTPS URL of Git repository to use with deploy command\e[22m"
@@ -33,22 +33,22 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e ""
     echo -e "          --skip-wizard  \e[2m- Don't run Installation Wizard on deploy, use .env contents instead\e[22m"
     echo -e "          --with-pma     \e[2m- Force install phpMyAdmin (to use with --skip-wizard flag)\e[22m"
-    echo -e ""    
+    echo -e ""
     echo -e "\e[96mExamples:\e[39m"
     echo -e ""
     echo -e "      \e[2mInstall InstantCMS 2 from scratch:\e[22m "
-    echo -e "          \e[2m$\e[22m init.sh install "    
-    echo -e ""        
+    echo -e "          \e[2m$\e[22m init.sh install "
+    echo -e ""
     echo -e "      \e[2mDeploy InstantCMS 2 from Git repository:\e[22m "
-    echo -e "          \e[2m$\e[22m init.sh deploy https://github.com/user/repo.git"    
-    echo -e ""        
+    echo -e "          \e[2m$\e[22m init.sh deploy https://github.com/user/repo.git"
+    echo -e ""
     echo -e "      \e[2mDeploy InstantCMS 2 from Git repository and phpMyAdmin using config from .env:\e[22m "
     echo -e "          \e[2m$\e[22m init.sh deploy https://github.com/user/repo.git --skip-wizard --with-pma"
-    echo -e ""        
+    echo -e ""
     echo -e "\e[96mDocumentation:\e[39m"
     echo -e ""
     echo -e "      \e[2mCheck official repository:\e[22m "
-    echo -e "          https://github.com/veocode/icms2-docker "        
+    echo -e "          https://github.com/veocode/icms2-docker "
     echo -e ""
     exit 0
 fi
@@ -61,7 +61,7 @@ FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1
 FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
 
 
-declare -A envs 
+declare -A envs
 envs[VERSION]=2.13.1
 envs[HTTP_PORT]=80
 envs[MYSQL_DATABASE]=icmsdb
@@ -96,10 +96,10 @@ clear_installation() {
     rm -rf $DIR/services/apache/logs/*
     mkdir $DIR/icms2
     mkdir $DIR/services/mysql/db
-    echo "" > $DIR/icms2/.gitkeep    
-    echo "" > $DIR/services/mysql/db/.gitkeep    
-    echo "" > $DIR/services/apache/logs/.gitkeep    
-    cp $DIR/vendor/compose.yml $DIR/docker-compose.yml   
+    echo "" > $DIR/icms2/.gitkeep
+    echo "" > $DIR/services/mysql/db/.gitkeep
+    echo "" > $DIR/services/apache/logs/.gitkeep
+    cp $DIR/vendor/compose.yml $DIR/docker-compose.yml
 }
 
 run_wizard() {
@@ -108,10 +108,10 @@ run_wizard() {
     echo "Please answer the questions to initialise your installation"
     echo ""
 
-    for key in "${order[@]}"; do 
+    for key in "${order[@]}"; do
         if [[ $key == "VERSION" && $MODE != "install" ]]; then
             continue
-        fi    
+        fi
         if [[ $key == "PHPMYADMIN_PORT" && $PHPMYADMIN_INSTALL != "y" ]]; then
             continue
         fi
@@ -132,7 +132,7 @@ save_config() {
     echo "Saving configuration..."
     cp $DIR/vendor/compose.yml $DIR/docker-compose.yml
     rm -f $DIR/.env
-    for key in "${order[@]}"; do 
+    for key in "${order[@]}"; do
         if [[ $key == "PHPMYADMIN_PORT" && $PHPMYADMIN_INSTALL != "y" ]]; then
             continue
         fi
@@ -147,7 +147,7 @@ download_icms() {
     local VERSION="${envs[VERSION]}"
 
     echo "Downloading InstantCMS v$VERSION..."
-    git clone -q --branch $VERSION $ICMS_REPO || { 
+    git clone -q --branch $VERSION $ICMS_REPO || {
         echo "Failed to download. Invalid version?"
         exit 1
     }
@@ -166,7 +166,7 @@ checkout_icms() {
     local REPO_URL=$1
     echo "Downloading site from $REPO_URL..."
     rm -rf $DIR/icms2
-    git clone -q $REPO_URL icms2 || { 
+    git clone -q $REPO_URL icms2 || {
         echo "Failed to download. Invalid repository?"
         exit 1
     }
@@ -183,8 +183,8 @@ checkout_icms() {
 deploy_configs() {
     if [ -f $DIR/icms2/system/config/config.prod.php ]; then
         echo "Deploying production config..."
-        mv $DIR/icms2/system/config/config.prod.php $DIR/icms2/system/config/config.php        
-    fi   
+        mv $DIR/icms2/system/config/config.prod.php $DIR/icms2/system/config/config.php
+    fi
     echo "Deploying database dumps..."
     rm -f $DIR/services/mysql/dump/*
     mv $DIR/icms2/*.sql $DIR/services/mysql/dump
@@ -226,7 +226,7 @@ completed() {
 
 main() {
 
-    if [[ $MODE == "install" ]]; then 
+    if [[ $MODE == "install" ]]; then
         run_wizard
         clear_installation
         save_config
@@ -236,14 +236,14 @@ main() {
         completed
     fi
 
-    if [[ $MODE == "deploy" ]]; then 
+    if [[ $MODE == "deploy" ]]; then
         local REPO_URL=$2
 
         if [[ $REPO_URL == "" ]]; then
             run_wizard
             save_config
             deploy_configs
-            set_icms_permissions            
+            set_icms_permissions
             start_docker
             completed
         fi
@@ -266,32 +266,32 @@ main() {
         fi
     fi
 
-    if [[ $MODE == "clear" ]]; then 
+    if [[ $MODE == "clear" ]]; then
         header
         clear_installation
         rm -f $DIR/services/mysql/dump/*.sql
         completed
     fi
 
-    if [[ $MODE == "restart" ]]; then 
+    if [[ $MODE == "restart" ]]; then
         header
         restart
         completed
     fi
 
-    if [[ $MODE == "start" ]]; then 
+    if [[ $MODE == "start" ]]; then
         header
         start_docker
         completed
     fi
 
-    if [[ $MODE == "stop" ]]; then 
-        header  
+    if [[ $MODE == "stop" ]]; then
+        header
         stop_docker
         completed
     fi
 
-    if [[ $MODE == "shell" ]]; then 
+    if [[ $MODE == "shell" ]]; then
         header
         docker exec -it $(get_container_name) bash
         completed
