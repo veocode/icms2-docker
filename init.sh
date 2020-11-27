@@ -63,6 +63,7 @@ FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
 
 declare -A envs
 envs[VERSION]=2.13.1
+envs[HTTP_HOST]=icms2-docker
 envs[HTTP_PORT]=80
 envs[MYSQL_DATABASE]=icmsdb
 envs[MYSQL_USER]=icmsdb
@@ -73,6 +74,7 @@ envs[PHPMYADMIN_PORT]=8001
 
 declare -A prompts
 prompts[VERSION]="InstantCMS version to install"
+prompts[HTTP_HOST]="Web-server Host"
 prompts[HTTP_PORT]="Web-server Port"
 prompts[MYSQL_DATABASE]="MySQL Database"
 prompts[MYSQL_USER]="MySQL User"
@@ -81,7 +83,7 @@ prompts[MYSQL_ROOT_PASSWORD]="MySQL Root Password"
 prompts[PHPMYADMIN_INSTALL]="Install phpMyAdmin? (y/n)"
 prompts[PHPMYADMIN_PORT]="phpMyAdmin Port"
 
-order=(VERSION HTTP_PORT MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD PHPMYADMIN_INSTALL PHPMYADMIN_PORT)
+order=(VERSION HTTP_HOST HTTP_PORT MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD PHPMYADMIN_INSTALL PHPMYADMIN_PORT)
 
 PHPMYADMIN_INSTALL=y
 
@@ -147,6 +149,7 @@ download_icms() {
     local VERSION="${envs[VERSION]}"
 
     echo "Downloading InstantCMS v$VERSION..."
+    rm -rf $DIR/icms2
     git clone -q --branch $VERSION $ICMS_REPO || {
         echo "Failed to download. Invalid version?"
         exit 1
@@ -293,7 +296,19 @@ main() {
 
     if [[ $MODE == "shell" ]]; then
         header
-        docker exec -it $(get_container_name) bash
+        docker-compose exec icms bash
+        completed
+    fi
+
+    if [[ $MODE == "makecert" ]]; then
+        header
+        local EMAIL=$2
+        local DOMAIN=$3
+        if [[ $EMAIL == "" || $DOMAIN == "" ]]; then
+            echo "USAGE: init.sh makecert <EMAIL> <DOMAIN>"
+            exit 1
+        fi
+        docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN
         completed
     fi
 
@@ -305,4 +320,3 @@ main() {
 }
 
 main $@
-

@@ -2,9 +2,11 @@ version: "3.1"
 services:
     icms:
         build: .
-        ports: 
+        ports:
             - ${HTTP_PORT}:80
-        environment: 
+        environment:
+            ICMS_HOSTNAME: ${HTTP_HOST}
+            ICMS_PORT: ${HTTP_PORT}
             ICMS_MYSQL_DB_HOST: mysql
             ICMS_MYSQL_DB_BASE: ${MYSQL_DATABASE}
             ICMS_MYSQL_DB_USER: ${MYSQL_USER}
@@ -20,7 +22,7 @@ services:
             - default
     mysql:
         image: mysql:8.0
-        ports: 
+        ports:
             - 3306:3306
         command: --default-authentication-plugin=mysql_native_password
         environment:

@@ -1,4 +1,4 @@
-FROM php:7.2-apache 
+FROM php:7.2-apache
 
 ENV TERM=xterm
 
@@ -7,12 +7,12 @@ RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y sendmail \
     && apt-get install -y libpng-dev \
-    && apt-get install -y libjpeg62-turbo-dev \    
-    && apt-get install -y libfreetype6-dev \    
-    && apt-get install -y libxml2-dev \    
-    && apt-get install -y libssl-dev \    
+    && apt-get install -y libjpeg62-turbo-dev \
+    && apt-get install -y libfreetype6-dev \
+    && apt-get install -y libxml2-dev \
+    && apt-get install -y libssl-dev \
     && apt-get install -y libzip-dev \
-    && apt-get install -y libmcrypt-dev \    
+    && apt-get install -y libmcrypt-dev \
     && apt-get install -y memcached \
     && apt-get install -y libmemcached-dev \
     && apt-get install -y libicu-dev \
@@ -26,7 +26,7 @@ RUN service apache2 restart
 
 # PHP EXTENSIONS
 RUN docker-php-ext-install opcache
-RUN docker-php-ext-install mysqli 
+RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd
@@ -55,12 +55,12 @@ RUN ln -s /opt/custom.conf/php/php.ini php.ini
 RUN mkdir /opt/custom.conf/apache
 COPY ./services/apache/conf/ /opt/custom.conf/apache/
 WORKDIR /etc/apache2
-RUN rm -f apache2.conf \ 
-            sites-available/000-default.conf \ 
-            sites-available/default-ssl.conf
+RUN rm -f apache2.conf \
+    sites-available/000-default.conf \
+    sites-available/default-ssl.conf
 RUN ln -s /opt/custom.conf/apache/apache2.conf apache2.conf
 RUN ln -s /opt/custom.conf/apache/site.conf sites-available/000-default.conf
 RUN ln -s /opt/custom.conf/apache/site.ssl.conf sites-available/default-ssl.conf
 
 # INSTALL SSL
-# RUN certbot --apache --register-unsafely-without-email --agree-tos -d example.com
+# RUN certbot --apache --agree-tos -m user@example.com -d example.com
