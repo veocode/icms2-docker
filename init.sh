@@ -169,7 +169,7 @@ download_icms() {
 
 checkout_icms() {
     local REPO_URL=$1
-    echo "Downloading site from $REPO_URL..."
+    echo "Downloading site from repository..."
     rm -rf $DIR/icms2
     git clone -q $REPO_URL icms2 || {
         echo "Failed to download. Invalid repository?"
