@@ -67,7 +67,7 @@ FLAG_FORCE_HTTPS=0; if [[ $ARGS == *"--force-https"* ]]; then FLAG_FORCE_HTTPS=1
 
 
 declare -A envs
-envs[VERSION]=2.13.1
+envs[VERSION]=2.14.0
 envs[HTTP_HOST]=icms2-docker
 envs[HTTP_PORT]=80
 envs[MYSQL_DATABASE]=icmsdb
@@ -75,7 +75,7 @@ envs[MYSQL_USER]=icmsdb
 envs[MYSQL_PASSWORD]=secret
 envs[MYSQL_ROOT_PASSWORD]=rootsecret
 envs[PHPMYADMIN_INSTALL]=y
-envs[PHPMYADMIN_PORT]=8001
+envs[PHPMYADMIN_PORT]=8080
 
 declare -A prompts
 prompts[VERSION]="InstantCMS version to install"
