@@ -22,6 +22,7 @@ RUN apt-get install -y --no-install-recommends apt-utils \
 
 # APACHE SETUP
 RUN a2enmod rewrite
+RUN a2enmod ssl
 RUN service apache2 restart
 
 # PHP EXTENSIONS
@@ -60,7 +61,3 @@ RUN rm -f apache2.conf \
     sites-available/default-ssl.conf
 RUN ln -s /opt/custom.conf/apache/apache2.conf apache2.conf
 RUN ln -s /opt/custom.conf/apache/site.conf sites-available/000-default.conf
-RUN ln -s /opt/custom.conf/apache/site.ssl.conf sites-available/default-ssl.conf
-
-# INSTALL SSL
-# RUN certbot --apache --agree-tos -m user@example.com -d example.com
