@@ -98,7 +98,7 @@ clear_installation() {
     rm -rf $DIR/services/mysql/db
     rm -rf $DIR/services/apache/logs/*
     rm -rf $DIR/services/apache/letsencrypt/*
-    rm -f $DIR/services/apache/letsencrypt/.*
+    rm -f $DIR/services/apache/letsencrypt/.* 2> /dev/null
     mkdir $DIR/icms2
     mkdir $DIR/services/mysql/db
     echo "" > $DIR/icms2/.gitkeep
