@@ -16,6 +16,7 @@ services:
             - ./icms2:/var/www/html/
             - ./services/apache/conf:/opt/custom.conf/apache/
             - ./services/apache/logs:/var/log/apache2/
+            - ./services/apache/letsencrypt:/etc/letsencrypt
         links:
             - mysql
         networks:
