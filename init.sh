@@ -4,7 +4,9 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e ""
     echo -e "\e[96mInstantCMS 2 Official Docker Toolkit\e[39m"
     echo -e ""
-    echo -e "      init.sh <COMMAND> [REPO_URL] [FLAGS]"
+    echo -e "      init.sh <COMMAND>"
+    echo -e "      init.sh deploy [REPO_URL] [--skip-wizard] [--with-pma]"
+    echo -e "      init.sh makecert <CERT_EMAIL> <CERT_DOMAIN> [--force-https]"
     echo -e ""
     echo -e "\e[96mAvailable Commands:\e[39m"
     echo -e ""
@@ -19,6 +21,7 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e "          stop           \e[2m- Stop Docker containers\e[22m"
     echo -e "          restart        \e[2m- Restart Docker containers\e[22m"
     echo -e "          shell          \e[2m- Connect to web-server shell\e[22m"
+    echo -e "          force-https    \e[2m- Force redirect from HTTP to HTTPS\e[22m"
     echo -e ""
     echo -e "      \e[2mOther:\e[22m "
     echo -e ""
@@ -33,6 +36,7 @@ if [[ $MODE == "help" || $MODE == "--help"  || $MODE == "-h" ]]; then
     echo -e ""
     echo -e "          --skip-wizard  \e[2m- Don't run Installation Wizard on deploy, use .env contents instead\e[22m"
     echo -e "          --with-pma     \e[2m- Force install phpMyAdmin (to use with --skip-wizard flag)\e[22m"
+    echo -e "          --force-https  \e[2m- Force redirect from HTTP to HTTPS when installing SSL certificate\e[22m"
     echo -e ""
     echo -e "\e[96mExamples:\e[39m"
     echo -e ""
@@ -221,6 +225,19 @@ restart() {
     start_docker
 }
 
+force_https() {
+    echo "Enabling force redirect to HTTPS..."
+    local HTACCESS="$DIR/icms2/.htaccess"
+    local S
+    local R
+    S='# RewriteCond %{HTTPS} !=on'
+    R='RewriteCond %{HTTPS} !=on'
+    sed -i "s/$S/$R/g" $HTACCESS
+    S='# RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
+    R='RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
+    sed -i "s/$S/$R/g" $HTACCESS
+}
+
 make_cert() {
     local EMAIL=$1
     local DOMAIN=$2
@@ -234,17 +251,8 @@ make_cert() {
     cat $DIR/services/apache/conf/site-le-ssl.conf >> $DIR/services/apache/conf/site.conf
     rm -f $DIR/services/apache/conf/site-le-ssl.conf
 
-    if [[ $FLAG_FORCE_HTTPS == "--force-https" ]]; then
-        echo "Enabling force redirect to HTTPS..."
-        local HTACCESS="$DIR/icms2/.htaccess"
-        local S
-        local R
-        S='# RewriteCond %{HTTPS} !=on'
-        R='RewriteCond %{HTTPS} !=on'
-        sed -i "s/$S/$R/g" $HTACCESS
-        S='# RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
-        R='RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
-        sed -i "s/$S/$R/g" $HTACCESS
+    if [[ $FLAG_FORCE_HTTPS == 1 ]]; then
+        force_https
     fi
 
     echo "Restarting web-server..."
@@ -301,6 +309,12 @@ main() {
             start_docker
             completed
         fi
+    fi
+
+    if [[ $MODE == "force-https" ]]; then
+        run_wizard
+        force_https
+        completed
     fi
 
     if [[ $MODE == "clear" ]]; then
