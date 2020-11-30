@@ -234,7 +234,7 @@ make_cert() {
     cat $DIR/services/apache/conf/site-le-ssl.conf >> $DIR/services/apache/conf/site.conf
     rm -f $DIR/services/apache/conf/site-le-ssl.conf
 
-    if [[ $FLAG_FORCE_HTTPS == "--force-https"]]; then
+    if [[ $FLAG_FORCE_HTTPS == "--force-https" ]]; then
         echo "Enabling force redirect to HTTPS..."
         local HTACCESS="$DIR/icms2/.htaccess"
         local S
