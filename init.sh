@@ -312,7 +312,7 @@ main() {
     fi
 
     if [[ $MODE == "force-https" ]]; then
-        run_wizard
+        header
         force_https
         completed
     fi
