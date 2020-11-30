@@ -219,6 +219,22 @@ restart() {
     start_docker
 }
 
+make_cert() {
+    local EMAIL=$1
+    local DOMAIN=$2
+    if [[ $EMAIL == "" || $DOMAIN == "" ]]; then
+        echo "USAGE: init.sh makecert <EMAIL> <DOMAIN>"
+        exit 1
+    fi
+    echo "Creating certificate..."
+    docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN
+    echo "Installing certificate..."
+    cat $DIR/services/apache/conf/site-le-ssl.conf >> $DIR/services/apache/conf/site.conf
+    rm -f $DIR/services/apache/conf/site-le-ssl.conf
+    echo "Restarting web-server..."
+    restart
+}
+
 header() {
     echo -e "\e[96micms2-docker: $MODE\e[39m"
 }
@@ -304,13 +320,7 @@ main() {
 
     if [[ $MODE == "makecert" ]]; then
         header
-        local EMAIL=$2
-        local DOMAIN=$3
-        if [[ $EMAIL == "" || $DOMAIN == "" ]]; then
-            echo "USAGE: init.sh makecert <EMAIL> <DOMAIN>"
-            exit 1
-        fi
-        docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN
+        make_cert $2 $3
         completed
     fi
 
