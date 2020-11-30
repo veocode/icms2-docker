@@ -59,6 +59,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 FLAG_SKIP_WIZARD=0; if [[ $ARGS == *"--skip-wizard"* ]]; then FLAG_SKIP_WIZARD=1; fi
 FLAG_WITH_PMA=0; if [[ $ARGS == *"--with-pma"* ]]; then FLAG_WITH_PMA=1; fi
+FLAG_FORCE_HTTPS=0; if [[ $ARGS == *"--force-https"* ]]; then FLAG_FORCE_HTTPS=1; fi
 
 
 declare -A envs
@@ -231,6 +232,20 @@ make_cert() {
     echo "Installing certificate..."
     cat $DIR/services/apache/conf/site-le-ssl.conf >> $DIR/services/apache/conf/site.conf
     rm -f $DIR/services/apache/conf/site-le-ssl.conf
+
+    if [[ $FLAG_FORCE_HTTPS == "--force-https"]]; then
+        echo "Enabling force redirect to HTTPS..."
+        local HTACCESS="$DIR/icms2/.htaccess"
+        local S
+        local R
+        S='# RewriteCond %{HTTPS} !=on'
+        R='RewriteCond %{HTTPS} !=on'
+        sed -i "s/$S/$R/g" $HTACCESS
+        S='# RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
+        R='RewriteRule \^(\.\*)\$ https:\/\/%{HTTP_HOST}\/\$1 \[R=301,L\]'
+        sed -i "s/$S/$R/g" $HTACCESS
+    fi
+
     echo "Restarting web-server..."
     restart
 }
