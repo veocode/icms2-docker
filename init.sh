@@ -246,7 +246,11 @@ make_cert() {
         exit 1
     fi
     echo "Creating certificate..."
-    docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN
+    docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN  || {
+        echo "Failed to create certificate"
+        exit 1
+    }
+
     echo "Installing certificate..."
     cat $DIR/services/apache/conf/site-le-ssl.conf >> $DIR/services/apache/conf/site.conf
     rm -f $DIR/services/apache/conf/site-le-ssl.conf
