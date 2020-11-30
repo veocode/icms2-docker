@@ -314,6 +314,7 @@ main() {
     if [[ $MODE == "force-https" ]]; then
         header
         force_https
+        restart
         completed
     fi
 
