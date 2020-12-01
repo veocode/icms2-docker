@@ -246,7 +246,7 @@ make_cert() {
         exit 1
     fi
     echo "Creating certificate..."
-    docker-compose exec icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN  || {
+    docker-compose exec -T icms certbot --apache --agree-tos -n -m $EMAIL -d $DOMAIN  || {
         echo "Failed to create certificate"
         exit 1
     }
@@ -356,6 +356,18 @@ main() {
     if [[ $MODE == "makecert" ]]; then
         header
         make_cert $2 $3
+        completed
+    fi
+
+    if [[ $MODE == "printfile" ]]; then
+        local FILE=$2
+        if [[ $FILE == "" ]]; then
+            echo "USAGE: init.sh printfile <FILE>"
+            echo "EXAMPLE: init.sh printfile <FILE>"
+            exit 1
+        fi
+        header
+        docker-compose exec icms bash
         completed
     fi
 
