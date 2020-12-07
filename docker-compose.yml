@@ -18,6 +18,7 @@ services:
             - ./services/apache/conf:/opt/custom.conf/apache/
             - ./services/apache/logs:/var/log/apache2/
             - ./services/apache/letsencrypt:/etc/letsencrypt
+            - ./services/php:/opt/custom.conf/php/
         links:
             - mysql
         networks:
