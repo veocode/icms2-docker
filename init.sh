@@ -67,7 +67,7 @@ FLAG_FORCE_HTTPS=0; if [[ $ARGS == *"--force-https"* ]]; then FLAG_FORCE_HTTPS=1
 
 
 declare -A envs
-envs[VERSION]=2.14.0
+envs[VERSION]=2.14.2
 envs[HTTP_HOST]=icms2-docker
 envs[HTTP_PORT]=80
 envs[MYSQL_DATABASE]=icmsdb
